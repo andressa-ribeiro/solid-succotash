@@ -1,0 +1,62 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
+
+.page {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f6f7; 
+  padding: 24px;
+}
+
+.card {
+  width: 360px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+}
+
+h1 {
+  margin: 0 0 16px 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  outline: none;
+}
+input:focus {
+  border-color: #9a9a9a;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+}
+
+button {
+  align-self: flex-start;
+  padding: 8px 14px;
+  font-size: 16px;
+  border: 1px solid #bdbdbd;
+  background: #f3f3f3;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover { filter: brightness(0.98); }
+
+.mensagem {
+  display: block;
+  margin-top: 18px;
+  font-size: 18px;
+}
