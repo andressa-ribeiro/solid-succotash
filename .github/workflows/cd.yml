@@ -32,7 +32,7 @@ jobs:
           CI: true
         run: npm run build
 
-      - name: Publicar artefato do build
+      - name: Publicar artefato
         uses: actions/upload-artifact@v4
         with:
           name: react-build
