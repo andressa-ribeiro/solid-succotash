@@ -1,0 +1,67 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]   
+    tags:    [ 'v*' ]     
+  workflow_dispatch: {}  
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deliver:
+    name: deliver
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install (ci)
+        run: npm ci
+
+      - name: Build (CRA)
+        env:
+          CI: true
+        run: npm run build
+
+      - name: Publicar artefato do build
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: build
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    name: deploy
+    needs: deliver
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write  
+      id-token: write  
+
+    steps:
+      - name: Baixar artefato do build
+        uses: actions/download-artifact@v4
+        with:
+          name: react-build
+          path: build
+
+      - name: Upload para Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+      - name: Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
