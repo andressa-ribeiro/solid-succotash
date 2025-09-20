@@ -1,38 +1,24 @@
 name: Discord Alerts
+
 on:
   push:
     branches: ["**"]
   pull_request:
-    types: [closed]
-    branches: [main]
+    branches: ["**"]
+
 jobs:
-  notify:
+  discord:
     runs-on: ubuntu-latest
+    if: always()
     steps:
-      - uses: actions/checkout@v4
-      - name: Send to Discord (push)
-        if: ${{ github.event_name == 'push' }}
-        uses: johnnyhuy/discord-webhook@v1.0.4
+      - name: Notificar Discord
+        uses: sarisia/actions-status-discord@v1
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          username: "GitHub Alerts"
-          avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-          content: |
-            Push em: ${{ github.ref_name }}
-            Repo: ${{ github.repository }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "🚀 ${{ github.event_name }} em ${{ github.repository }}"
+          description: |
             Autor: ${{ github.actor }}
-            Mensagem: ${{ github.event.head_commit.message }}
-            Diff: ${{ github.event.compare }}
-      - name: Send to Discord (merged PR -> main)
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
-        uses: johnnyhuy/discord-webhook@v1.0.4
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-          username: "GitHub Alerts"
-          avatar_url: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-          content: |
-            Merge para main
-            PR: #${{ github.event.pull_request.number }} — ${{ github.event.pull_request.title }}
-            Autor do PR: ${{ github.event.pull_request.user.login }}
-            Executado por: ${{ github.actor }}
-            URL: ${{ github.event.pull_request.html_url }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Mensagem: ${{ github.event.head_commit.message || '—' }}
+          status: ${{ job.status }}
