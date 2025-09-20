@@ -1,0 +1,24 @@
+name: Discord Alerts
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Notificar Discord
+        uses: sarisia/actions-status-discord@v1
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          title: "🚀 ${{ github.event_name }} em ${{ github.repository }}"
+          description: |
+            Autor: ${{ github.actor }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Mensagem: ${{ github.event.head_commit.message || '—' }}
+          status: ${{ job.status }}
