@@ -1,4 +1,3 @@
-// src/loginToolkit.js
 export const DEMO_EMAIL = "maria@pucpr.br";
 export const DEMO_PASSWORD = "123456";
 

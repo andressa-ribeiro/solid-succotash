@@ -1,4 +1,3 @@
-// src/loginToolkit.test.js
 import {
   DEMO_EMAIL, DEMO_PASSWORD,
   emailNormalizado, emailValido, estaVazio,

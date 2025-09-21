@@ -1,5 +1,3 @@
-// src/utils.js
-
 export const normalizeEmail = (email) =>
     (email ?? '').toString().trim().toLowerCase();
 
